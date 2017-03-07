@@ -25,6 +25,7 @@ class UserAuthServlet (val afterUrl: String, val loginUrl: String)
 //    println(user)
 
     val currentUser = SecurityUtils.getSubject
+
     try {
       val token = new UsernamePasswordToken(user.username, user.password.toCharArray)
 //      println(token.getPassword.toString)
