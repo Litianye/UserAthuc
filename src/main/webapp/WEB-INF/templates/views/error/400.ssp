@@ -1,0 +1,7 @@
+<% attributes("title") = "Not 401" %>
+
+<h2>No 401 Forbidden</h2>
+
+<p>
+    You have permission to access this page.
+</p>

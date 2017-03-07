@@ -1,0 +1,7 @@
+<% attributes("title") = "404" %>
+
+<h2>404 NotFound</h2>
+
+<p>
+    404
+</p>

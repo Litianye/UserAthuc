@@ -1,0 +1,7 @@
+<% attributes("title") = "Login Success" %>
+
+<h2>200OK</h2>
+
+<p>
+    Success
+</p>
