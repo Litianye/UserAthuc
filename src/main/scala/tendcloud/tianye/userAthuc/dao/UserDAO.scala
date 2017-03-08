@@ -42,6 +42,7 @@ object UserDAO {
         FROM sys_user
         WHERE id = #{{id}}
       </xsql>
+//    println("UserDAO findOne.")
   }
 
   val findAll = new SelectList[User] {
@@ -56,7 +57,7 @@ object UserDAO {
 
     def xsql =
       <xsql>
-        SELECT id, group_id, username, role_ids, locked
+        SELECT id, group_id, username, role_ids as roleIdsStr, locked
         FROM sys_user
       </xsql>
   }

@@ -10,5 +10,6 @@ class ScalatraBootstrap extends LifeCycle {
     context.mount(new UserAuthServlet("/success", "/error"), "/auth/*")
     context.mount(new ErrorServlet, "/error")
     context.mount(new SuccessServlet, "/success")
+    context.mount(new AdminServlet, "/admin")
   }
 }

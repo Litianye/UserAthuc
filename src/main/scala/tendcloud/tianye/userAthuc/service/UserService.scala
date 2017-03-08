@@ -2,7 +2,6 @@ package tendcloud.tianye.userAthuc.service
 
 import tendcloud.tianye.userAthuc.dao.MainDAO
 import tendcloud.tianye.userAthuc.entity.User
-import scala.collection.mutable.Set
 
 /**
   * Created by tend on 2017/3/4.
@@ -14,7 +13,7 @@ class UserService {
   def createUser(user: User): Unit = {
     passwordHelper.encryptPassword(user)
     if (user.roleIds == null ) {
-      user.roleIds = List(2333)
+      user.roleIds = List()
       user.locked = false
     }
     MainDAO.createUser(user)
@@ -33,8 +32,11 @@ class UserService {
     val user = MainDAO.findOneUser(id)
     if (user.nonEmpty) {
       user.get.password = newPassword
+//      println("1.userService: beforeChange"+user.get.toString)
       passwordHelper.encryptPassword(user.get)
+      user.get.setRoleIds()
       MainDAO.updateUser(user.get)
+//      println("1.userService: Changed"+user.get.toString)
     }
   }
 
@@ -46,25 +48,32 @@ class UserService {
     MainDAO.findAllUser()
   }
 
-  def findByUsername(name: String): User = {
-    MainDAO.findByUsername(name).get
+  def findByUsername(name: String): Option[User] = {
+    val user = MainDAO.findByUsername(name)
+//    println("query at findByUsername")
+    if (user.isDefined) {
+      if (user.get.roleIds == null) user.get.setRoleIds()
+    }
+    user
   }
 
   def findRoles(username: String): Set[String] = {
     val user = findByUsername(username)
-    if (user == null) {
-      collection.mutable.Set.empty[String]
+    if (user.get.getRoleIds().isEmpty)  println("1.roleIds: empty")
+    else for (p <- user.get.getRoleIds()) println("1.roleId:"+p.toString)
+    if (user.isEmpty) {
+      Set.empty
     }else {
-      roleService.findRoles(user.roleIds)
+      roleService.findRoles(user.get.getRoleIds())
     }
   }
 
   def findPermission(username: String): Set[String] = {
     val user = findByUsername(username)
-    if (user == null) {
-      collection.mutable.Set.empty[String]
+    if (user.isEmpty) {
+      Set.empty
     }else {
-      roleService.findPermissions(user.roleIds.toArray)
+      roleService.findPermissions(user.get.roleIds.toArray)
     }
   }
 

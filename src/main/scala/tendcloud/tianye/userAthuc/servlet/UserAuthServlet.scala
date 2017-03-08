@@ -2,7 +2,9 @@ package tendcloud.tianye.userAthuc.servlet
 
 import org.apache.shiro.SecurityUtils
 import org.apache.shiro.authc.UsernamePasswordToken
+import org.apache.shiro.mgt.RealmSecurityManager
 import tendcloud.tianye.userAthuc.entity.User
+import tendcloud.tianye.userAthuc.realm.UserRealm
 import tendcloud.tianye.userAthuc.service.{PasswordHelper, UserService}
 
 /**
@@ -29,8 +31,8 @@ class UserAuthServlet (val afterUrl: String, val loginUrl: String)
     try {
       val token = new UsernamePasswordToken(user.username, user.password.toCharArray)
 //      println(token.getPassword.toString)
+      token.setRememberMe(true)
       currentUser.login(token)
-      token.setRememberMe(false)
       redirect(afterUrl)
     }catch {
       case ex: Exception => {
@@ -49,4 +51,24 @@ class UserAuthServlet (val afterUrl: String, val loginUrl: String)
     userService.createUser(user)
     redirect(afterUrl)
   }
+
+  get("/userLogout") {
+    SecurityUtils.getSubject.logout()
+    redirect(afterUrl)
+  }
+
+  post("/userChangePassword") {
+    val newPassword = params.getOrElse("newPassword", "")
+
+    val currentUser = SecurityUtils.getSubject
+    val userRealm = SecurityUtils.getSecurityManager.asInstanceOf[RealmSecurityManager].
+      getRealms.iterator().next().asInstanceOf[UserRealm]
+    val user = userService.findByUsername(currentUser.getPrincipal.toString)
+//    println("userAuth:"+user.toString)
+    userService.changePassword(user.get.id, newPassword)
+    userRealm.clearCachedAuthenticationInfo(currentUser.getPrincipals)
+//    println("userAuth:"+user.toString)
+    redirect("/login")
+  }
+
 }

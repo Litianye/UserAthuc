@@ -37,7 +37,7 @@ object RoleDAO {
   val findOne = new SelectOneBy[Long, Role] {
     def xsql =
       <xsql>
-        SELECT role, description, resource_ids, available
+        SELECT role, description, resource_ids as resourceIdsStr, available
         FROM sys_role
         WHERE id = #{{id}}
       </xsql>
@@ -55,7 +55,7 @@ object RoleDAO {
 
     def xsql =
       <xsql>
-        SELECT id, role, description, resource_ids, available
+        SELECT id, role, description, resource_ids as resourceIdsStr, available
         FROM sys_role
       </xsql>
   }

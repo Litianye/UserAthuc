@@ -9,15 +9,21 @@ class ErrorServlet extends UserathucStack{
   }
 
   get("/") {
-    display404()
+    <html>
+      <body>
+        <h1>Login error</h1>
+        Say <a href="hello-scalate">hello to Scalate</a>.
+      </body>
+    </html>
   }
 
   post("/") {
-    display404()
+    <html>
+      <body>
+        <h1>Login error</h1>
+        Say <a href="hello-scalate">hello to Scalate</a>.
+      </body>
+    </html>
   }
 
-  protected def display404() {
-    contentType = "text/html"
-    ssp("/error/404.ssp")
-  }
 }

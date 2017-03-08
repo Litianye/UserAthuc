@@ -1,0 +1,18 @@
+<% attributes("title") = "ResourceTest" %>
+
+<form name="groupForm" action="/auth/userLogin" method="post">
+<fieldset>
+<legend>Login</legend>
+
+<label for="username">Username</label>
+<input type="text" id="username" name="username" placeholder="Username" value="" required>
+
+<br/>
+
+<label for="password">Password</label>
+<input type="password" id="password" name="password" placeholder="Password" required>
+</fieldset>
+
+<br/>
+    <button type="submit">Login</button>
+</form>

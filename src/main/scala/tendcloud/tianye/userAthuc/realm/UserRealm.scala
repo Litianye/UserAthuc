@@ -18,9 +18,14 @@ class UserRealm extends AuthorizingRealm{
     val username = principals.getPrimaryPrincipal.asInstanceOf[String]
 
     val authorizationInfo = new SimpleAuthorizationInfo
-    authorizationInfo.setRoles(userService.findRoles(username).asInstanceOf[util.Set[String]])
-    authorizationInfo.setStringPermissions(userService.findPermission(username)
-      .asInstanceOf[util.Set[String]])
+    val roles = userService.findRoles(username)
+    val permission = userService.findPermission(username)
+    if (roles.nonEmpty){
+      authorizationInfo.setRoles(scalaToJavaConverter(roles))
+      authorizationInfo.setStringPermissions(scalaToJavaConverter(permission))
+    }else {
+      println("3.roles empty")
+    }
     authorizationInfo
   }
 
@@ -29,13 +34,13 @@ class UserRealm extends AuthorizingRealm{
     try {
       val user = userService.findByUsername(username)
 
-      if (user == null) throw new UnknownAccountException()
-      if (user.locked.equals(true)) throw new LockedAccountException()
+      if (user.isEmpty) throw new UnknownAccountException()
+      if (user.get.locked.equals(true)) throw new LockedAccountException()
 
       val authenticationInfo = new SimpleAuthenticationInfo(
-        user.username,
-        user.password,
-        ByteSource.Util.bytes(user.getCredentialSalt()),
+        user.get.username,
+        user.get.password,
+        ByteSource.Util.bytes(user.get.getCredentialSalt()),
         getName
       )
       authenticationInfo
@@ -49,6 +54,12 @@ class UserRealm extends AuthorizingRealm{
         new SimpleAuthenticationInfo()
       }
     }
+  }
+
+  protected def scalaToJavaConverter(scalaSet: Set[String]): java.util.Set[String] = {
+    val javaSet = new util.HashSet[String]()
+    scalaSet.foreach(entry => javaSet.add(entry))
+    javaSet
   }
 
   override def clearCachedAuthenticationInfo(principals: PrincipalCollection): Unit =

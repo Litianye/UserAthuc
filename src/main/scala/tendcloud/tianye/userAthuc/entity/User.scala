@@ -36,6 +36,21 @@ class User extends Serializable{
     this.roleIdsStr = getRoleIdsStr()
   }
 
+  def this(id: Long, group_id: Long, username: String, password: String, salt: String, roleIdsStr: String, locked: Boolean){
+    this(username, password)
+    this.id = id
+    this.salt = salt
+    this.group_id = group_id
+    this.roleIdsStr = roleIdsStr
+    this.locked = locked
+  }
+
+  def this(id: Long, group_id: Long, username: String, password: String, salt: String, roleIdsStr: String, roleIds: List[Long], locked: Boolean){
+    this(id, group_id, username, password, salt, roleIdsStr, locked)
+    this.roleIds = roleIds
+  }
+
+
   def this(id: Long, group_id: Long, username: String, password: String, roleIds: List[Long]){
     this(username, password)
     this.id = id
@@ -56,7 +71,21 @@ class User extends Serializable{
       s.toString()
     }
   }
-//
+
+  def getRoleIds(): List[Long] = {
+    if (roleIds == null) {
+      roleIds = List()
+    }
+    roleIds
+  }
+
+  def setRoleIds():Unit = {
+    if (roleIdsStr == null) roleIds = List(2333)
+    else {
+      val temp = roleIdsStr.split(",").toList
+      roleIds = temp.map(f => f.toLong)
+    }
+  }
 //  def setRoleIdsStr(roleIdsStr: String): Unit = {
 //    if (roleIdsStr.isEmpty) return
 //    val roleIdStrs: Array[String] = roleIdsStr.split(",")

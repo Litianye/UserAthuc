@@ -39,7 +39,19 @@ class Role extends Serializable{
       s.toString()
     }
   }
-//
+
+  def getResourceIds(): List[Long] = {
+    if (resourceIds == null) List() else resourceIds
+  }
+
+  def setResourceIds(): Unit = {
+    if (resourceIdsStr == null) resourceIds = List()
+    else {
+      val temp = resourceIdsStr.split(",").toList
+      resourceIds = temp.map(f => f.toLong)
+    }
+  }
+
 //  def setResourceIdsStr(resourceIdsStr: String): Unit = {
 //    if (resourceIdsStr.isEmpty) return
 //    val resourceIdStrs: Array[String] = resourceIdsStr.split(",")

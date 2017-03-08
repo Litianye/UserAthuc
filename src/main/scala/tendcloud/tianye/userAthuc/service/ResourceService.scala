@@ -4,8 +4,6 @@ import org.apache.shiro.authz.permission.WildcardPermission
 import tendcloud.tianye.userAthuc.dao.MainDAO
 import tendcloud.tianye.userAthuc.entity.{Resource, ResourceType}
 
-import scala.collection.mutable.Set
-
 /**
   * Created by tend on 2017/3/5.
   */
@@ -32,6 +30,7 @@ class ResourceService {
   }
 
   def findPermissions(resourceIds: Set[Long]): Set[String] = {
+    import scala.collection.mutable.Set
     val permissions = Set[String]()
     for (resourceId <- resourceIds) {
       val resource = findOne(resourceId)
@@ -39,7 +38,7 @@ class ResourceService {
         permissions.add(resource.get.permission)
       }
     }
-    permissions
+    permissions.toSet
   }
 
   def findMenus(permissions: Set[String]): Seq[Resource] = {

@@ -1,4 +1,4 @@
-<% attributes("title") = "Test" %>
+<% attributes("title") = "LoginTest" %>
 
 <%@ var username: String = "" %>
 
@@ -20,7 +20,21 @@
 </form>
 
 <br/>
+<form name="logoutForm" action="/auth/userLogout" method="get">
+<button type="submit">Logout</button>
+</form>
 
+<br/>
+<form name="loginForm" action="/auth/userChangePassword" method="post">
+<fieldset>
+    <label for="newPassword">NewPassword</label>
+    <input type="password" id="newPassword" name="newPassword" placeholder="newPassword" required>
+</fieldset>
+<br/>
+    <button type="submit">Change</button>
+</form>
+
+<br/>
 <form name="registerForm" action="/auth/userRegister" method="post">
 <fieldset>
 <legend>Register</legend>
@@ -39,7 +53,8 @@
 </fieldset>
 
 <br/>
-    <button type="submit">Login</button>
+    <button type="submit">register</button>
 </form>
 
+<a href="resource.ssp">Go to Group action</a>
 

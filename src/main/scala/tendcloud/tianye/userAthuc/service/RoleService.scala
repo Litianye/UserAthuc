@@ -2,7 +2,6 @@ package tendcloud.tianye.userAthuc.service
 
 import tendcloud.tianye.userAthuc.dao.MainDAO
 import tendcloud.tianye.userAthuc.entity.Role
-import scala.collection.mutable.Set
 
 
 /**
@@ -33,26 +32,34 @@ class RoleService {
   }
 
   def findRoles(ids: List[Long]): Set[String] = {
-    import scala.collection.mutable.Set
-    val roles = Set[String]()
+    val roles = collection.mutable.Set[String]()
     for (id <- ids) {
       val role = findOne(id)
       if (role != null) {
         roles.add(role.get.role)
       }
     }
-    roles
+    println("2.roles:"+roles)
+    roles.toSet
   }
 
   def findPermissions(roleIds: Array[Long]): Set[String] = {
-    val resourceIds = Set[Long]()
+    val resourceIds = collection.mutable.Set[Long]()
     for (roleId <- roleIds) {
       val role = findOne(roleId)
-      if (role != null) {
-        for (resourceId <- role.get.resourceIds) resourceIds.add(resourceId)
+      if (role.get != null) {
+        println("role.get != null")
+//        println("resourceIds:"+role.get.resourceIds)
+        role.get.setResourceIds()
+//        println("resourceIds:"+role.get.resourceIds)
+        for (resourceId <- role.get.resourceIds) {
+          resourceIds.add(resourceId)
+        }
+      }else {
+        println("role.get = null")
       }
     }
-    resourceService.findPermissions(resourceIds)
+    resourceService.findPermissions(resourceIds.toSet)
   }
 
 }
