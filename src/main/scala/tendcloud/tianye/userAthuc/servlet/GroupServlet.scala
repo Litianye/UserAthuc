@@ -13,18 +13,35 @@ class GroupServlet extends UserathucStack with JacksonJsonSupport{
 
   lazy val userService = new UserService
   before () {
-    contentType = "text/html"
-    val currentUser = SecurityUtils.getSubject
-    if (!currentUser.isAuthenticated) redirect("/login")
+    contentType = formats("json")
+    if (!SecurityUtils.getSubject.isAuthenticated) redirect("/login")
   }
 
-  get ("/:groupId") {
-//    val username = currentUser.getPrincipal.toString
-//    val group_id = userService.findByUsername(username).get.group_id
-    <p>Hello, you are in {params("groupId")}</p>
-//    if (group_id = params("groupId")) {
-//
-//    }
+  get ("/group/:groupId") {
+    val currentUser = SecurityUtils.getSubject
+    val username = currentUser.getPrincipal.toString
+    val group_id = userService.findByUsername(username).get.group_id
+
+    if (group_id.toString.equals(params("groupId"))) {
+      Map("group"->0, "group_id"->group_id)
+    }else {
+      Map("group"->1, "real_group_id"->group_id, "target_group_id"->params("groupId"))
+    }
+  }
+
+  get ("/operation") {
+    contentType = "text/html"
+    ssp("/ssp/resource.ssp")
+  }
+  get ("/operate/:operate_name") {
+    val currentUser = SecurityUtils.getSubject
+    if (currentUser.isPermitted(params("operate_name")+":create")) {
+      Map("operate"->1)
+    }else {
+      Map("operate"->0)
+    }
   }
 
 }
+
+case class UserInfo(id: Int, name: String, groupId: Int)

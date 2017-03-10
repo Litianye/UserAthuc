@@ -1,18 +1,26 @@
 <% attributes("title") = "ResourceTest" %>
 
-<form name="groupForm" action="/auth/userLogin" method="post">
-<fieldset>
-<legend>Login</legend>
-
-<label for="username">Username</label>
-<input type="text" id="username" name="username" placeholder="Username" value="" required>
 
 <br/>
-
-<label for="password">Password</label>
-<input type="password" id="password" name="password" placeholder="Password" required>
-</fieldset>
+<form name="resourceForm" action="/action/operate/group" method="get">
+<br/>
+    <button type="submit">Group</button>
+</form>
 
 <br/>
-    <button type="submit">Login</button>
+<form name="resourceForm" action="/action/operate/user" method="get">
+<br/>
+    <button type="submit">User</button>
+</form>
+
+<br/>
+<form name="resourceForm" action="/action/operate/resource" method="get">
+<br/>
+    <button type="submit">Resource</button>
+</form>
+
+<br/>
+<form name="resourceForm" action="/action/operate/role" method="get">
+<br/>
+    <button type="submit">Role</button>
 </form>
