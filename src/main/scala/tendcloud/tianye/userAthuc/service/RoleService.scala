@@ -39,7 +39,7 @@ class RoleService {
         roles.add(role.get.role)
       }
     }
-    println("2.roles:"+roles)
+//    println("2.roles:"+roles)
     roles.toSet
   }
 
@@ -48,7 +48,7 @@ class RoleService {
     for (roleId <- roleIds) {
       val role = findOne(roleId)
       if (role.get != null) {
-        println("role.get != null")
+//        println("role.get != null")
 //        println("resourceIds:"+role.get.resourceIds)
         role.get.setResourceIds()
 //        println("resourceIds:"+role.get.resourceIds)
@@ -56,7 +56,7 @@ class RoleService {
           resourceIds.add(resourceId)
         }
       }else {
-        println("role.get = null")
+//        println("role.get = null")
       }
     }
     resourceService.findPermissions(resourceIds.toSet)

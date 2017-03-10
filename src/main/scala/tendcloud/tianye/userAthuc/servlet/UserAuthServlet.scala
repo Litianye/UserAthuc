@@ -1,23 +1,27 @@
 package tendcloud.tianye.userAthuc.servlet
 
 import org.apache.shiro.SecurityUtils
-import org.apache.shiro.authc.UsernamePasswordToken
+import org.apache.shiro.authc.{AuthenticationException, IncorrectCredentialsException, UsernamePasswordToken}
 import org.apache.shiro.mgt.RealmSecurityManager
-import tendcloud.tianye.userAthuc.entity.User
+import tendcloud.tianye.userAthuc.entity.{Group, User}
 import tendcloud.tianye.userAthuc.realm.UserRealm
-import tendcloud.tianye.userAthuc.service.{PasswordHelper, UserService}
+import tendcloud.tianye.userAthuc.service.{GroupService, PasswordHelper, UserService}
+import org.json4s.{DefaultFormats, Formats}
+import org.scalatra.json._
 
 /**
   * Created by tend on 2017/3/6.
   */
 class UserAuthServlet (val afterUrl: String, val loginUrl: String)
-  extends UserathucStack{
+  extends UserathucStack with JacksonJsonSupport{
 
   lazy val userService = new UserService
+  lazy val groupService = new GroupService
   lazy val passwordHelper = new PasswordHelper
+  protected implicit lazy val jsonFormats: Formats = DefaultFormats
 
   before() {
-    contentType = "text/html"
+    contentType = formats("json")
   }
 
   post("/userLogin") {
@@ -31,13 +35,14 @@ class UserAuthServlet (val afterUrl: String, val loginUrl: String)
     try {
       val token = new UsernamePasswordToken(user.username, user.password.toCharArray)
 //      println(token.getPassword.toString)
-      token.setRememberMe(true)
+      token.setRememberMe(false)
       currentUser.login(token)
-      redirect(afterUrl)
+      val userInfo = userService.findByUsername(currentUser.getPrincipal.toString).get
+      Map("Login"->0, "username"->userInfo.username, "group_id"->userInfo.group_id)
     }catch {
-      case ex: Exception => {
-        println(ex.toString)
-        redirect(loginUrl)
+      case auex: AuthenticationException => {
+        println("userAu:"+auex.toString)
+        Map("Login"->1)
       }
     }
   }
@@ -47,14 +52,17 @@ class UserAuthServlet (val afterUrl: String, val loginUrl: String)
     val password = params.getOrElse("password", "")
     val groupId = params.getOrElse("groupId", "")
 
-    val user = new User(groupId.toLong, username.toString, password.toString)
-    userService.createUser(user)
-    redirect(afterUrl)
+    if (userService.findByUsername(username).isDefined) Map("Register"->1)
+    else {
+      val user = new User(groupId.toLong, username.toString, password.toString)
+      userService.createUser(user)
+      Map("Register"->0)
+    }
   }
 
   get("/userLogout") {
     SecurityUtils.getSubject.logout()
-    redirect(afterUrl)
+    Map("Logout"->0)
   }
 
   post("/userChangePassword") {
@@ -68,7 +76,13 @@ class UserAuthServlet (val afterUrl: String, val loginUrl: String)
     userService.changePassword(user.get.id, newPassword)
     userRealm.clearCachedAuthenticationInfo(currentUser.getPrincipals)
 //    println("userAuth:"+user.toString)
-    redirect("/login")
+    Map("Change"->0)
+  }
+
+  post ("/createGroup") {
+    val groupName = params.getOrElse("groupName", "")
+    val group = new Group(groupName, 0, "0", true)
+    groupService.createGroup(group)
   }
 
 }

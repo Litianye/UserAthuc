@@ -59,8 +59,8 @@ class UserService {
 
   def findRoles(username: String): Set[String] = {
     val user = findByUsername(username)
-    if (user.get.getRoleIds().isEmpty)  println("1.roleIds: empty")
-    else for (p <- user.get.getRoleIds()) println("1.roleId:"+p.toString)
+//    if (user.get.getRoleIds().isEmpty)  println("FindRoles: empty")
+//    else for (p <- user.get.getRoleIds()) println("FindRoles:"+p.toString)
     if (user.isEmpty) {
       Set.empty
     }else {

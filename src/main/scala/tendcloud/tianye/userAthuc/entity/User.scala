@@ -80,7 +80,7 @@ class User extends Serializable{
   }
 
   def setRoleIds():Unit = {
-    if (roleIdsStr == null) roleIds = List(2333)
+    if (roleIdsStr == null) roleIds = List()
     else {
       val temp = roleIdsStr.split(",").toList
       roleIds = temp.map(f => f.toLong)

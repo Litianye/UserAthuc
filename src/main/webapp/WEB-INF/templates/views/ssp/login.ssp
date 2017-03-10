@@ -56,5 +56,21 @@
     <button type="submit">register</button>
 </form>
 
-<a href="resource.ssp">Go to Group action</a>
+<form name="groupForm" action="/auth/createGroup" method="post">
+<fieldset>
+<legend>GroupCreate</legend>
+
+<label for="groupName">GroupName</label>
+<input type="text" id="groupName" name="groupName" placeholder="GroupName" required>
+</fieldset>
+
+<br/>
+    <button type="submit">create</button>
+</form>
+
+<br/>
+    <button type="submit">register</button>
+</form>
+
+<a href="/action">Go to Group action</a>
 

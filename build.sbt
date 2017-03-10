@@ -31,7 +31,10 @@ libraryDependencies ++= Seq(
   "org.apache.shiro" % "shiro-web" % "1.3.2",
   "commons-logging" % "commons-logging" % "1.1.3",
   "mysql" % "mysql-connector-java" % "5.1.40",
-  "org.apache.shiro" % "shiro-ehcache" % "1.4.0-RC2"
+  "org.apache.shiro" % "shiro-ehcache" % "1.4.0-RC2",
+  "org.json4s" % "json4s-jackson_2.11" % "3.5.0",
+  "org.scalatra" % "scalatra-json_2.11" % "2.4.1"
+
 )
 
 scalateTemplateConfig in Compile := {

@@ -10,6 +10,18 @@ class Group extends Serializable{
   var parentIds: String = _
   var available: Boolean = _
 
+  def this (name: String, available: Boolean) {
+    this()
+    this.name = name
+    this.available = available
+  }
+
+  def this (name: String, parentId: Long, parentIds: String, available: Boolean) {
+    this(name, available)
+    this.parentId = parentId
+    this.parentIds = parentIds
+  }
+
 //  def isRootNode(): Boolean = {
 //    parentId == 0
 //  }

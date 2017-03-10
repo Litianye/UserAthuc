@@ -30,7 +30,15 @@ class UserHashedCredentialsMatcher extends HashedCredentialsMatcher{
 //      println(retryCount.toString)
 //      if (retryCount.incrementAndGet() > 5) throw new ExcessiveAttemptsException()
 //      val matches: Boolean =
+    try{
       super.doCredentialsMatch(token, info)
+    }catch {
+      case ilex: IllegalArgumentException => {
+        println("credentials:"+ilex.toString)
+        false
+      }
+    }
+
 //    val tokenHashedCredentials = hashProvidedCredentials(token, info)
 //    println("tk:"+tokenHashedCredentials.getClass.toString+":"+tokenHashedCredentials)
 //    val accountCredentials = getCredentials(info)

@@ -123,6 +123,10 @@ object MainDAO {
   def createGroup(group: Group): Unit = {
     context.transaction { implicit session =>
       GroupDAO.createGroup(group)
+//      val adminRole = new Role(group.name+"Admin", group.name+"管理员", List(11,21,31,41), true)
+//      val userRole = new Role(group.name+"User", group.name+"用户", List(11,21), true)
+//      RoleDAO.createRole(adminRole)
+//      RoleDAO.createRole(userRole)
     }
   }
 
