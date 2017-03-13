@@ -1,7 +1,7 @@
 package tendcloud.tianye.userAthuc.dao
 
 import org.mybatis.scala.config.Configuration
-import tendcloud.tianye.userAthuc.entity.{Group, Resource, Role, User}
+import tendcloud.tianye.userAthuc.entity._
 
 /**
   * Created by tend on 2017/3/4.
@@ -56,6 +56,12 @@ object MainDAO {
   def findByUsername(name: String): Option[User] = {
     context.transaction { implicit session =>
       UserDAO.findByUsername(name)
+    }
+  }
+
+  def findByGroupId(groupId: Long): Seq[SimpleUser] = {
+    context.transaction { implicit session =>
+      UserDAO.findByGroupId(groupId)
     }
   }
 

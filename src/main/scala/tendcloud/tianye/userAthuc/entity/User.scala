@@ -116,3 +116,18 @@ class User extends Serializable{
       ", locked="+ locked +'}'
   }
 }
+
+class SimpleUser() {
+  var group_id: Long =_
+  var username: String =_
+  var roleIdsStr: String = _
+  var locked: Boolean = _
+
+  def this(group_id: Long, username: String, roleIdsStr: String, locked: Boolean) {
+    this()
+    this.group_id = group_id
+    this.username = username
+    this.roleIdsStr = roleIdsStr
+    this.locked = locked
+  }
+}

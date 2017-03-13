@@ -1,7 +1,7 @@
 package tendcloud.tianye.userAthuc.service
 
 import tendcloud.tianye.userAthuc.dao.MainDAO
-import tendcloud.tianye.userAthuc.entity.User
+import tendcloud.tianye.userAthuc.entity.{SimpleUser, User}
 
 /**
   * Created by tend on 2017/3/4.
@@ -46,6 +46,10 @@ class UserService {
 
   def findAll(): Seq[User] = {
     MainDAO.findAllUser()
+  }
+
+  def findByGroupId(groupId: Long): Seq[SimpleUser] = {
+    MainDAO.findByGroupId(groupId)
   }
 
   def findByUsername(name: String): Option[User] = {

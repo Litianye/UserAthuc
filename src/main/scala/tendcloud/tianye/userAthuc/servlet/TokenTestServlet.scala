@@ -1,7 +1,7 @@
 package tendcloud.tianye.userAthuc.servlet
 
 import org.apache.shiro.SecurityUtils
-import org.apache.shiro.authc.{AuthenticationException, UsernamePasswordToken}
+import org.apache.shiro.authc.{AuthenticationException,UsernamePasswordToken}
 import org.json4s.{DefaultFormats, Formats}
 import org.scalatra.json.JacksonJsonSupport
 import tendcloud.tianye.userAthuc.entity.User
@@ -31,9 +31,10 @@ class TokenTestServlet extends UserathucStack with JacksonJsonSupport{
       //      println(token.getPassword.toString)
       token.setRememberMe(false)
       currentUser.login(token)
-//      val userInfo = userService.findByUsername(currentUser.getPrincipal.toString).get
+      val userInfo = userService.findByUsername(currentUser.getPrincipal.toString).get
+      userService.findByGroupId(userInfo.group_id)
 //      Map("Login"->0, "username"->userInfo.username, "group_id"->userInfo.group_id)
-      token.toString
+//      Map("token"->token.getPrincipal, "creditial"->token.getCredentials)
     }catch {
       case auex: AuthenticationException => {
         println("userAu:"+auex.toString)

@@ -1,8 +1,7 @@
 package tendcloud.tianye.userAthuc.dao
 
-import org.mybatis.scala.config.Configuration
-import org.mybatis.scala.mapping.{Delete, Insert, JdbcGeneratedKey, ResultMap, SelectList, SelectOneBy, Update}
-import tendcloud.tianye.userAthuc.entity.{Role, User}
+import org.mybatis.scala.mapping.{Delete, Insert, JdbcGeneratedKey, ResultMap, SelectList, SelectListBy, SelectOneBy, Update}
+import tendcloud.tianye.userAthuc.entity.{SimpleUser, User}
 
 /**
   * Created by tend on 2017/3/3.
@@ -71,5 +70,14 @@ object UserDAO {
       </xsql>
   }
 
-  def bind = Seq(createUser, updateUser, deleteUser, findOne, findAll, findByUsername)
+  val findByGroupId = new SelectListBy[Long , SimpleUser] {
+    def xsql =
+      <xsql>
+        SELECT group_id, username, role_ids as roleIdsStr, locked
+        FROM sys_user
+        WHERE group_id = #{{group_id}}
+      </xsql>
+  }
+
+  def bind = Seq(createUser, updateUser, deleteUser, findOne, findAll, findByUsername, findByGroupId)
 }

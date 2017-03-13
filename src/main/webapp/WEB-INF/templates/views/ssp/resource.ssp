@@ -2,25 +2,25 @@
 
 
 <br/>
-<form name="resourceForm" action="/action/operate/group" method="get">
+<form name="resourceForm" action="/action/operate/create" method="get">
 <br/>
-    <button type="submit">Group</button>
+    <button type="submit">Create</button>
 </form>
 
 <br/>
-<form name="resourceForm" action="/action/operate/user" method="get">
+<form name="resourceForm" action="/action/operate/update" method="get">
 <br/>
-    <button type="submit">User</button>
+    <button type="submit">Update</button>
 </form>
 
 <br/>
-<form name="resourceForm" action="/action/operate/resource" method="get">
+<form name="resourceForm" action="/action/operate/delete" method="get">
 <br/>
-    <button type="submit">Resource</button>
+    <button type="submit">Delete</button>
 </form>
 
 <br/>
-<form name="resourceForm" action="/action/operate/role" method="get">
+<form name="resourceForm" action="/action/operate/view" method="get">
 <br/>
-    <button type="submit">Role</button>
+    <button type="submit">View</button>
 </form>
