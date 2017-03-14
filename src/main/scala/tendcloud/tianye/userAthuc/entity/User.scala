@@ -50,7 +50,6 @@ class User extends Serializable{
     this.roleIds = roleIds
   }
 
-
   def this(id: Long, group_id: Long, username: String, password: String, roleIds: List[Long]){
     this(username, password)
     this.id = id
@@ -64,7 +63,7 @@ class User extends Serializable{
   }
 
   def getRoleIdsStr(): String = {
-    if (roleIds.isEmpty) ""
+    if (roleIds.isEmpty) "0"
     else {
       val s = new StringBuilder
       for (roleId <- roleIds) s.append(roleId+",")

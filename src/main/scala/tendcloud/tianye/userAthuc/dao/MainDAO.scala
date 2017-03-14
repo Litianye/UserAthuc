@@ -120,6 +120,12 @@ object MainDAO {
     }
   }
 
+  def findOneResourceTest(id: Long): Option[Resource] = {
+    context.transaction { implicit session =>
+      ResourceDAO.findOneTest(id)
+    }
+  }
+
   def findAllResource(): Seq[Resource] = {
     context.transaction { implicit session =>
       ResourceDAO.findAll()

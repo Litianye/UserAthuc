@@ -72,6 +72,7 @@ class UserService {
     }
   }
 
+
   def findPermission(username: String): Set[String] = {
     val user = findByUsername(username)
     if (user.isEmpty) {

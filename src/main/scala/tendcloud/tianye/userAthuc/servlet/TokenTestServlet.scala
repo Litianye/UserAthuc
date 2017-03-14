@@ -21,26 +21,11 @@ class TokenTestServlet extends UserathucStack with JacksonJsonSupport{
   post("/userLogin") {
     val username = params.getOrElse("username", "")
     val password = params.getOrElse("password", "")
-    val user = new User(username, password)
-    //    println(user)
+    val param = params.getOrElse("param", "")
 
-    val currentUser = SecurityUtils.getSubject
+    
 
-    try {
-      val token = new UsernamePasswordToken(user.username, user.password.toCharArray)
-      //      println(token.getPassword.toString)
-      token.setRememberMe(false)
-      currentUser.login(token)
-      val userInfo = userService.findByUsername(currentUser.getPrincipal.toString).get
-      userService.findByGroupId(userInfo.group_id)
-//      Map("Login"->0, "username"->userInfo.username, "group_id"->userInfo.group_id)
-//      Map("token"->token.getPrincipal, "creditial"->token.getCredentials)
-    }catch {
-      case auex: AuthenticationException => {
-        println("userAu:"+auex.toString)
-        Map("Login"->1)
-      }
-    }
+
   }
 
 }

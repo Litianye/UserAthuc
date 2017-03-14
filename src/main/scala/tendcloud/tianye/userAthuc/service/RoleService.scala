@@ -62,4 +62,23 @@ class RoleService {
     resourceService.findPermissions(resourceIds.toSet)
   }
 
+  def findPermissionsTest(roleIds: Array[Long]): Set[String] = {
+    val resourceIds = collection.mutable.Set[Long]()
+    for (roleId <- roleIds) {
+      val role = findOne(roleId)
+      if (role.get != null) {
+        //        println("role.get != null")
+        //        println("resourceIds:"+role.get.resourceIds)
+        role.get.setResourceIds()
+        //        println("resourceIds:"+role.get.resourceIds)
+        for (resourceId <- role.get.resourceIds) {
+          resourceIds.add(resourceId)
+        }
+      }else {
+        //        println("role.get = null")
+      }
+    }
+    resourceService.findPermissionsTest(resourceIds.toSet)
+  }
+
 }
