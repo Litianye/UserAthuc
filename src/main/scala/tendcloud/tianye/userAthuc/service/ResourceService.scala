@@ -40,17 +40,6 @@ class ResourceService {
     permissions.toSet
   }
 
-  def findPermissionsTest(resourceIds: Set[Long]): Set[String] = {
-    val permissions = collection.mutable.Set[String]()
-    for (resourceId <- resourceIds) {
-      val resource = findOne(resourceId)
-      if (resource != null && resource.get.permission.nonEmpty) {
-        permissions.add(resource.get.permission)
-      }
-    }
-    permissions.toSet
-  }
-
   def findMenus(permissions: Set[String]): Seq[Resource] = {
     val allResources = findAll()
     val menus = Seq[Resource]()

@@ -19,7 +19,7 @@ class UserRealm extends AuthorizingRealm{
 
     val authorizationInfo = new SimpleAuthorizationInfo
     val roles = userService.findRoles(username)
-    val permission = userService.findPermission(username)
+    val permission = userService.findSimplePermission(username)
     if (roles.nonEmpty){
       authorizationInfo.setRoles(scalaToJavaConverter(roles))
       authorizationInfo.setStringPermissions(scalaToJavaConverter(permission))

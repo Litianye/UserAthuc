@@ -72,13 +72,21 @@ class UserService {
     }
   }
 
-
   def findPermission(username: String): Set[String] = {
     val user = findByUsername(username)
     if (user.isEmpty) {
       Set.empty
     }else {
       roleService.findPermissions(user.get.roleIds.toArray)
+    }
+  }
+
+  def findSimplePermission(username: String): Set[String] = {
+    val user = findByUsername(username)
+    if (user.isEmpty) {
+      Set.empty
+    }else {
+      roleService.findSimplePermissions(user.get.roleIds.toArray)
     }
   }
 

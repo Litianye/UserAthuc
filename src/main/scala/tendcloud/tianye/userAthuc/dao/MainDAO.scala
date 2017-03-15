@@ -21,6 +21,12 @@ object MainDAO {
   config.addSpace("group") { space=>
     space ++= GroupDAO
   }
+  config.addSpace("simpleResource") { space =>
+    space ++= SimpleResourceDAO
+  }
+  config.addSpace("simpleGroup") { space =>
+    space ++= SimpleGroupDAO
+  }
   val context = config.createPersistenceContext
 
   def createUser(user: User): Unit = {
@@ -120,12 +126,6 @@ object MainDAO {
     }
   }
 
-  def findOneResourceTest(id: Long): Option[Resource] = {
-    context.transaction { implicit session =>
-      ResourceDAO.findOneTest(id)
-    }
-  }
-
   def findAllResource(): Seq[Resource] = {
     context.transaction { implicit session =>
       ResourceDAO.findAll()
@@ -170,6 +170,78 @@ object MainDAO {
   def findAllWithExclude(group: Group): Seq[Group] = {
     context.transaction { implicit session =>
       GroupDAO.findAllWithExclude(group.id)
+    }
+  }
+
+  def createSimpleResource(resource: SimpleResource): Unit = {
+    context.transaction { implicit session =>
+      SimpleResourceDAO.createResource(resource)
+    }
+  }
+
+  def updateSimpleResource(resource: SimpleResource): Unit = {
+    context.transaction { implicit session =>
+      SimpleResourceDAO.updateResource(resource)
+    }
+  }
+
+  def deleteSimpleResource(resource: SimpleResource): Unit = {
+    context.transaction { implicit session =>
+      SimpleResourceDAO.deleteSelfResource(resource)
+      SimpleResourceDAO.deleteChildResource(resource)
+    }
+  }
+
+  def findOneSimpleResource(id: Long): Option[SimpleResource] = {
+    context.transaction { implicit session =>
+      SimpleResourceDAO.findOne(id)
+    }
+  }
+
+  def findAllSimpleResource(): Seq[SimpleResource] = {
+    context.transaction { implicit session =>
+      SimpleResourceDAO.findAll()
+    }
+  }
+
+  def createSimpleGroup(group: SimpleGroup): Unit = {
+    context.transaction { implicit session =>
+      SimpleGroupDAO.createGroup(group)
+      //      val adminRole = new Role(group.name+"Admin", group.name+"管理员", List(11,21,31,41), true)
+      //      val userRole = new Role(group.name+"User", group.name+"用户", List(11,21), true)
+      //      RoleDAO.createRole(adminRole)
+      //      RoleDAO.createRole(userRole)
+    }
+  }
+
+  def updateSimpleGroup(group: SimpleGroup): Unit = {
+    context.transaction { implicit session =>
+      SimpleGroupDAO.updateGroup(group)
+    }
+  }
+
+  def deleteSimpleGroup(group: SimpleGroup): Unit = {
+    context.transaction { implicit session =>
+      SimpleGroupDAO.deleteSelfGroup(group)
+      SimpleGroupDAO.deleteChildGroup(group)
+    }
+  }
+
+  def findOneSimpleGroup(id: Long): Option[SimpleGroup] = {
+    context.transaction { implicit session =>
+      SimpleGroupDAO.findOne(id)
+    }
+  }
+
+  def findAllSimpleGroup(): Seq[SimpleGroup] = {
+    context.transaction { implicit session =>
+      SimpleGroupDAO.findAll()
+    }
+  }
+
+  def findAllWithSimpleExclude(group: SimpleGroup): Seq[SimpleGroup] = {
+    context.transaction { implicit session =>
+      SimpleGroupDAO.findAllWithExclude(group.id)
     }
   }
 }

@@ -53,15 +53,6 @@ object ResourceDAO {
       </xsql>
   }
 
-  val findOneTest = new SelectOneBy[Long, Resource] {
-    def xsql =
-      <xsql>
-        SELECT id, name, permission, available
-        FROM sys_resource
-        WHERE id = #{{id}}
-      </xsql>
-  }
-
   val findAll = new SelectList[Resource] {
     //mapping
     resultMap = new ResultMap[Resource] {
@@ -82,6 +73,6 @@ object ResourceDAO {
       </xsql>
   }
 
-  def bind = Seq(createResource, updateResource, deleteSelfResource, deleteChildResource, findOne, findAll, findOneTest)
+  def bind = Seq(createResource, updateResource, deleteSelfResource, deleteChildResource, findOne, findAll)
 }
 

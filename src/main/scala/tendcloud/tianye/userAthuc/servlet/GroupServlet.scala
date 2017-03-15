@@ -3,6 +3,7 @@ package tendcloud.tianye.userAthuc.servlet
 import org.apache.shiro.SecurityUtils
 import org.json4s.{DefaultFormats, Formats}
 import org.scalatra.json.JacksonJsonSupport
+import org.json4s._
 import tendcloud.tianye.userAthuc.service.UserService
 
 /**
@@ -15,6 +16,20 @@ class GroupServlet extends UserathucStack with JacksonJsonSupport{
   before () {
     contentType = formats("json")
     if (!SecurityUtils.getSubject.isAuthenticated) redirect("/login")
+  }
+
+  post ("/operationJson/") {
+    val operation = parsedBody.extract[OperationInfo]
+    val currentUser = SecurityUtils.getSubject
+    val username = currentUser.getPrincipal.toString
+    val group_id = userService.findByUsername(username).get.group_id
+
+    if (group_id == operation.groupId && currentUser.isPermitted(operation.operationName)) {
+      Map("operaJson" -> 0)
+    } else {
+      Map("operaJson" -> 1)
+    }
+//    println(operation.operationName, operation.groupId)
   }
 
   get ("/group/:groupId") {
@@ -33,9 +48,10 @@ class GroupServlet extends UserathucStack with JacksonJsonSupport{
     contentType = "text/html"
     ssp("/ssp/resource.ssp")
   }
+
   get ("/operate/:operate_name") {
     val currentUser = SecurityUtils.getSubject
-    if (currentUser.isPermitted(params("operate_name")+":create")) {
+    if (currentUser.isPermitted(params("operate_name")+":*")) {
       Map("operate"->1)
     }else {
       Map("operate"->0)
@@ -44,4 +60,4 @@ class GroupServlet extends UserathucStack with JacksonJsonSupport{
 
 }
 
-case class UserInfo(id: Int, name: String, groupId: Int)
+case class OperationInfo(groupId: Long, operationName: String)

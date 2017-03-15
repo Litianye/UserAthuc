@@ -7,13 +7,14 @@ import tendcloud.tianye.userAthuc.entity.{Group, User}
 import tendcloud.tianye.userAthuc.realm.UserRealm
 import tendcloud.tianye.userAthuc.service.{GroupService, PasswordHelper, UserService}
 import org.json4s.{DefaultFormats, Formats}
-import org.scalatra.json._
+import org.scalatra.CorsSupport
+import org.scalatra.json.JacksonJsonSupport
 
 /**
   * Created by tend on 2017/3/6.
   */
 class UserAuthServlet (val afterUrl: String, val loginUrl: String)
-  extends UserathucStack with JacksonJsonSupport{
+  extends UserathucStack with JacksonJsonSupport with CorsSupport{
 
   lazy val userService = new UserService
   lazy val groupService = new GroupService
@@ -27,18 +28,22 @@ class UserAuthServlet (val afterUrl: String, val loginUrl: String)
   post("/userLogin") {
     val username = params.getOrElse("username", "")
     val password = params.getOrElse("password", "")
-    val user = new User(username, password)
-//    println(user)
+//    val user = new User(username, password)
+    println(username+":"+password)
 
     val currentUser = SecurityUtils.getSubject
+//    response.setContentType("text/json")
+    response.setHeader("Access-Control-Allow-Headers", request.getHeader("Access-Control-Request-Headers"))
 
     try {
-      val token = new UsernamePasswordToken(user.username, user.password.toCharArray)
+      val token = new UsernamePasswordToken(username, password.toCharArray)
 //      println(token.getPassword.toString)
       token.setRememberMe(false)
       currentUser.login(token)
-      val userInfo = userService.findByUsername(currentUser.getPrincipal.toString).get
-      Map("Login"->0, "username"->userInfo.username, "group_id"->userInfo.group_id)
+
+//      val userInfo = userService.findByUsername(currentUser.getPrincipal.toString).get
+      Map("Login"->0)
+
     }catch {
       case auex: AuthenticationException => {
         println("userAu:"+auex.toString)
@@ -48,6 +53,7 @@ class UserAuthServlet (val afterUrl: String, val loginUrl: String)
   }
 
   post("/userRegister") {
+
     val username = params.getOrElse("username", "")
     val password = params.getOrElse("password", "")
     val groupId = params.getOrElse("groupId", "")

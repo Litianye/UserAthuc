@@ -10,6 +10,7 @@ import tendcloud.tianye.userAthuc.entity.Role
 class RoleService {
 
   lazy val resourceService = new ResourceService
+  lazy val simpleResourceService = new SimpleResourceService
 
   def createRole(role: Role): Unit = {
     MainDAO.createRole(role)
@@ -62,7 +63,7 @@ class RoleService {
     resourceService.findPermissions(resourceIds.toSet)
   }
 
-  def findPermissionsTest(roleIds: Array[Long]): Set[String] = {
+  def findSimplePermissions(roleIds: Array[Long]): Set[String] = {
     val resourceIds = collection.mutable.Set[Long]()
     for (roleId <- roleIds) {
       val role = findOne(roleId)
@@ -78,7 +79,7 @@ class RoleService {
         //        println("role.get = null")
       }
     }
-    resourceService.findPermissionsTest(resourceIds.toSet)
+    simpleResourceService.findPermissions(resourceIds.toSet)
   }
 
 }

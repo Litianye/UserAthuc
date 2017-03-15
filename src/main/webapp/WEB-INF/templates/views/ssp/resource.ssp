@@ -2,6 +2,24 @@
 
 
 <br/>
+<form name="resourceForm" action="/action/operate/user" method="get">
+<br/>
+    <button type="submit">User</button>
+</form>
+
+<br/>
+<form name="resourceForm" action="/action/operate/file" method="get">
+<br/>
+    <button type="submit">File</button>
+</form>
+
+<br/>
+<form name="resourceForm" action="/action/operate/group" method="get">
+<br/>
+    <button type="submit">Group</button>
+</form>
+
+<br/>
 <form name="resourceForm" action="/action/operate/create" method="get">
 <br/>
     <button type="submit">Create</button>
