@@ -4,6 +4,7 @@ import org.apache.shiro.SecurityUtils
 import org.json4s.{DefaultFormats, Formats}
 import org.scalatra.json.JacksonJsonSupport
 import org.json4s._
+import org.scalatra.MatchedRoute
 import tendcloud.tianye.userAthuc.service.UserService
 
 /**
@@ -13,9 +14,27 @@ class GroupServlet extends UserathucStack with JacksonJsonSupport{
   protected implicit lazy val jsonFormats: Formats = DefaultFormats
 
   lazy val userService = new UserService
+
+//  override def invoke(matchedRoute: MatchedRoute): Option[Any] = {
+//    withRouteMultiParams(Some(matchedRoute)) {
+//      val operation = params.getOrElse("operation", "")
+//      if (operation.equals("user:create")) halt(403, "You are not authorized for the requested client.")
+//      else super.invoke(matchedRoute)
+//    }
+//  }
+
   before () {
     contentType = formats("json")
     if (!SecurityUtils.getSubject.isAuthenticated) redirect("/login")
+  }
+
+  get("/") {
+    <html>
+      <body>
+        <h1>Action Page</h1>
+        Say <a href="hello-scalate">hello to Scalate</a>.
+      </body>
+    </html>
   }
 
   post ("/operationJson/") {

@@ -8,9 +8,9 @@ import org.apache.shiro.SecurityUtils
 class AdminServlet extends UserathucStack{
   before() {
     contentType = "text/html"
-//    val currentUser = SecurityUtils.getSubject
-//    if (! currentUser.isAuthenticated) ssp("/ssp/login")
-//    if (! currentUser.hasRole("admin")) redirect("/error")
+    val currentUser = SecurityUtils.getSubject
+    if (! currentUser.isAuthenticated) ssp("/ssp/login")
+    if (! currentUser.hasRole("admin")) redirect("/error")
 //    if (! currentUser.isPermitted("group:*")) redirect("/error")
   }
 

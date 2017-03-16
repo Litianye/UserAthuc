@@ -63,7 +63,7 @@ class User extends Serializable{
   }
 
   def getRoleIdsStr(): String = {
-    if (roleIds.isEmpty) "0"
+    if (roleIds.isEmpty) "4"
     else {
       val s = new StringBuilder
       for (roleId <- roleIds) s.append(roleId+",")

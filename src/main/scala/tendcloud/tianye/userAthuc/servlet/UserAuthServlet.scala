@@ -28,20 +28,20 @@ class UserAuthServlet (val afterUrl: String, val loginUrl: String)
   post("/userLogin") {
     val username = params.getOrElse("username", "")
     val password = params.getOrElse("password", "")
-//    val user = new User(username, password)
+    //    val user = new User(username, password)
     println(username+":"+password)
 
     val currentUser = SecurityUtils.getSubject
-//    response.setContentType("text/json")
+    //    response.setContentType("text/json")
     response.setHeader("Access-Control-Allow-Headers", request.getHeader("Access-Control-Request-Headers"))
 
     try {
       val token = new UsernamePasswordToken(username, password.toCharArray)
-//      println(token.getPassword.toString)
+      //      println(token.getPassword.toString)
       token.setRememberMe(false)
       currentUser.login(token)
 
-//      val userInfo = userService.findByUsername(currentUser.getPrincipal.toString).get
+      //      val userInfo = userService.findByUsername(currentUser.getPrincipal.toString).get
       Map("Login"->0)
 
     }catch {
