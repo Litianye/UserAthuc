@@ -8,6 +8,7 @@ class ErrorServlet extends UserathucStack{
     contentType = "text/html"
   }
 
+  
   get("/") {
     <html>
       <body>
