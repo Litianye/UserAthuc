@@ -59,6 +59,7 @@ class TokenTestServlet extends UserathucStack with JacksonJsonSupport with CorsS
     }
   }
 
+
   post("/verify") {
     val token = request.getHeader("Authorization").drop(7)
     println(token)
